@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import _ from 'lodash';
 
 const CommentForm = (props) => {
   const onSubmit = e => {
@@ -14,18 +15,42 @@ const CommentForm = (props) => {
       Object.assign(props.comment, {message: e.target.value});
   }
 
-  return (<form>
-    <input
-      placeholder="Email"
-      onChange={onEmailChange}
-      type="text"/><br/>
-    <br/>
-    <textarea
-      placeholder="Message"
-      onChange={onMessageChange}
-      type="text"/>
-    <button onClick={onSubmit}>Submit</button>
-  </form>)
+  let styles = _.cloneDeep(CommentForm.styles);
+
+  return (<form style={styles.commentForm}>
+    <div className="form-group">
+      <label className="sr-only">Email address</label>
+      <input
+        placeholder="Email"
+        onChange={onEmailChange}
+        type="text"
+        className="form-control"/>
+    </div>
+    <div className="form-group">
+      <label className="sr-only">Email address</label>
+      <textarea
+        placeholder="Message"
+        onChange={onMessageChange}
+        type="text"
+        className="form-control"/>
+    </div>
+    <div>
+    <button
+      onClick={onSubmit}
+      className="btn btn-primary">SUBMIT</button>
+      </div>
+  </form>);
+};
+
+CommentForm.styles = {
+  commentForm: {
+    background: '#eee',
+    padding: '2%',
+    margin: '1%'
+  },
+  submitButton: {
+    float: 'right'
+  }
 };
 
 CommentForm.propTypes = {

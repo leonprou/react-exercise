@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import _ from 'lodash';
 
 const CommentFilter = (props) => {
   const onFilterChange = e => {
@@ -7,10 +8,20 @@ const CommentFilter = (props) => {
       props.filterComments(props.filter.text);
   };
 
-  return <input
+  let styles = _.cloneDeep(CommentFilter.styles);
+
+  return <input style={styles.commentFilter}
     placeholder="Filter"
     onChange={onFilterChange}
     type="text"/>
+};
+
+CommentFilter.styles = {
+  commentFilter: {
+    width: '98%',
+    padding: '2%',
+    margin: '1%'
+  }
 };
 
 CommentFilter.propTypes = {
