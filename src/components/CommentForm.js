@@ -1,45 +1,75 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import _ from 'lodash';
 
-const CommentForm = (props) => {
-  const onSubmit = e => {
+class CommentForm extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  validateForm() {
+    if (this.props.comment.email && this.props.comment.message) {
+      this.setState({formIsValid : true});
+    } else {
+      this.setState({formIsValid : false});
+    }
+  }
+
+  onSubmit(e) {
     e.preventDefault();
-    props.submitComment(Object.assign({}, props.comment));
+    this.props.submitComment(Object.assign({}, this.props.comment));
   };
 
-  const onEmailChange = e => {
-      Object.assign(props.comment, {email: e.target.value});
+  onEmailChange(e) {
+      Object.assign(this.props.comment, {email: e.target.value});
+      this.validateForm();
   }
 
-  const onMessageChange = e => {
-      Object.assign(props.comment, {message: e.target.value});
+  onMessageChange(e) {
+      Object.assign(this.props.comment, {message: e.target.value});
+      this.validateForm();
   }
 
-  let styles = _.cloneDeep(CommentForm.styles);
 
-  return (<form style={styles.commentForm}>
-    <div className="form-group">
-      <label className="sr-only">Email address</label>
-      <input
-        placeholder="Email"
-        onChange={onEmailChange}
-        type="text"
-        className="form-control"/>
-    </div>
-    <div className="form-group">
-      <label className="sr-only">Email address</label>
-      <textarea
-        placeholder="Message"
-        onChange={onMessageChange}
-        type="text"
-        className="form-control"/>
-    </div>
-    <div>
-    <button
-      onClick={onSubmit}
-      className="btn btn-primary">SUBMIT</button>
-      </div>
-  </form>);
+  render() {
+    let styles = _.cloneDeep(this.constructor.styles);
+
+    let validForm;
+    if (this.state.formIsValid) {
+      validForm = <div><button
+              onClick={this.onSubmit.bind(this)}
+              className="btn btn-primary">SUBMIT</button>
+            </div>;
+    } else {
+      validForm = <div><button
+              onClick={this.onSubmit.bind(this)}
+              className="btn btn-disabled" disabled>SUBMIT</button>
+            </div>;
+    }
+
+    return (
+      <form style={styles.commentForm}>
+        <div className="form-group">
+          <label className="sr-only">Email address</label>
+          <input
+            placeholder="Email"
+            onChange={this.onEmailChange.bind(this)}
+            type="text"
+            className="form-control"/>
+        </div>
+        <div className="form-group">
+          <label className="sr-only">Email address</label>
+          <textarea
+            placeholder="Message"
+            onChange={this.onMessageChange.bind(this)}
+            type="text"
+            className="form-control"/>
+        </div>
+        {validForm}
+      </form>);
+  }
 };
 
 CommentForm.styles = {

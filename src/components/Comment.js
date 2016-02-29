@@ -18,9 +18,7 @@ Comment.styles = {
     color: 'grey'
   },
   comment: {
-    // background: 'blue',
     padding: '2%',
-    // width: '100%',
     margin: '1%'
   }
 };

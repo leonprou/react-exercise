@@ -69,7 +69,6 @@ App.styles = {
   },
   appItem: {
     width: '40%'
-    // background: 'green'
   }
 }
 
